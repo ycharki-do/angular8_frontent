@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Code</h1>
+<div mat-dialog-content>
+  <div class="card-body">
+    <form [formGroup]="form" >
+          <div class="controles-container">
+            <input type="hidden"  formControlName="id">
+            <mat-form-field appearance="outline">
+              <mat-label>Numero</mat-label>
+              <input matInput placeholder="Numero" formControlName="numero" #numero/>
+              <mat-error *ngIf="form.controls['numero'].hasError('code')">
+                Please enter a valid data (3 or 5 digits)
+              </mat-error>
+              <mat-error *ngIf="form.controls['numero'].hasError('unique')">
+                Please enter a unique data.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" >
+              <mat-label>Statut</mat-label>
+              <mat-select formControlName="statut">
+                <mat-option *ngFor="let choix of statusChoose" [value]="choix.value"
+                            (click)="form.controls['statut'].setValue(choix.value)">
+                  {{choix.valueView}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Date Attribution *</mat-label>
+              <input matInput placeholder="Date Attribution" [matDatepicker]="picker" formControlName="date_attr"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="addCode()" [disabled]="form.invalid">Submit</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Clear</button>
+</div>

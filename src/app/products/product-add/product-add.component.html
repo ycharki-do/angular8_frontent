@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Ajouter un nouveau produit</h1>
+<div mat-dialog-content class="mat-dialog-content">
+    <form class="mat-dialog-content" (ngSubmit)="addProduit()" [formGroup]="form" >
+          <div class="controles-container">
+            <input type="hidden"  formControlName="id">
+            <!--<mat-form-field appearance="outline">-->
+              <!--<mat-label>Projet * </mat-label>-->
+                <!--<input matInput placeholder="Projet" formControlName="projet" [matAutocomplete]="auto1"/>-->
+                <!--<mat-error *ngIf="form.controls['projet'].hasError('incorrect')">-->
+                  <!--Please select a valid project-->
+                <!--</mat-error>-->
+            <!--</mat-form-field>-->
+
+            <mat-form-field appearance="outline" >
+              <mat-label>Projet</mat-label>
+              <mat-select required formControlName="projet" >
+                <mat-option *ngFor="let pr of projets" [value]="pr">
+                  {{pr.nom}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.controls['projet'].hasError('required')">This field is montadory</mat-error>
+            </mat-form-field>
+
+            <!--<mat-autocomplete #auto1 [displayWith]="displayFn.bind(this)">-->
+              <!--<mat-option *ngFor="let pr of filteredProjets | async" [value]="pr">-->
+                <!--{{pr.nom}}-->
+              <!--</mat-option>-->
+            <!--</mat-autocomplete>-->
+            <mat-form-field appearance="outline">
+              <mat-label>Nom * </mat-label>
+              <input matInput placeholder="nom" formControlName="nom"/>
+              <mat-error *ngIf="form.controls['nom'].errors?.required">This field is montadory</mat-error>
+              <mat-error *ngIf="form.controls['nom'].errors?.minlength">Min length is 3</mat-error>
+              <mat-error *ngIf="form.controls['nom'].hasError('unique')">
+                Please enter a unique data.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Date Creation *</mat-label>
+              <input matInput placeholder="date" [matDatepicker]="picker" formControlName="created"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+    </form>
+  </div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="addProduit()" [disabled]="form.invalid">Submit</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Clear</button>
+</div>

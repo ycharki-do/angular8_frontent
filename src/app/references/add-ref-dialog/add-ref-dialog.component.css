@@ -1,0 +1,9 @@
+.controles-container {
+  width: 80%;
+  margin: auto auto;
+  display: block;
+}
+
+.controles-container > * {
+  width: 80%;
+}

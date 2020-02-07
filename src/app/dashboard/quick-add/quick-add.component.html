@@ -1,0 +1,123 @@
+<mat-horizontal-stepper [linear]="false" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Product</ng-template>
+          <div class="controles-container">
+            <mat-form-field appearance="outline" >
+              <mat-label>Projet</mat-label>
+              <mat-select required formControlName="projet" >
+                <mat-option *ngFor="let pr of projets" [value]="pr">
+                  {{pr.nom}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.controls['projet'].hasError('required')">This field is montadory</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nom * </mat-label>
+              <input matInput placeholder="nom" formControlName="nom"/>
+              <mat-error *ngIf="firstFormGroup.controls['nom'].errors?.required">This field is montadory</mat-error>
+              <mat-error *ngIf="firstFormGroup.controls['nom'].errors?.minlength">Min length is 3</mat-error>
+              <mat-error *ngIf="firstFormGroup.controls['nom'].hasError('unique')">
+                Please enter a unique data.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Date Creation *</mat-label>
+              <input matInput placeholder="date" [matDatepicker]="picker" formControlName="created"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+      <div>
+        <button mat-button matStepperNext class="btn btn-default pull-right">Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup" >
+      <ng-template matStepLabel>Reference</ng-template>
+      <div class="controles-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom</mat-label>
+          <input matInput placeholder="Nom" formControlName="nom"/>
+          <mat-error *ngIf="secondFormGroup.controls['nom'].hasError('minlength') || secondFormGroup.controls['nom'].hasError('maxlength')">
+            please enter a valid name (9 characters)!!
+          </mat-error>
+          <mat-error *ngIf="secondFormGroup.controls['nom'].hasError('unique')">
+            This field must be unique
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Zone</mat-label>
+          <mat-select formControlName="zone">
+            <mat-option *ngFor="let choi of zoneChoose" [value]="choi.value"
+                        (click)="secondFormGroup.controls['zone'].setValue(choi.value)">
+              {{choi.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" >
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="statut">
+            <mat-option *ngFor="let choix of statusChoose" [value]="choix.value"
+                        (click)="secondFormGroup.controls['statut'].setValue(choix.value)">
+              {{choix.valueView}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Date Creation *</mat-label>
+          <input matInput placeholder="Date Ajout" [matDatepicker]="picker1" formControlName="date_ajout"/>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious class="btn btn-default">Previous</button>
+        <button mat-button matStepperNext class="btn btn-default pull-right" [disabled]="secondFormGroup.invalid">Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Code</ng-template>
+    <form [formGroup]="thirdFormGroup" >
+      <div class="controles-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Numero</mat-label>
+          <input matInput placeholder="Numero" formControlName="numero" #numero/>
+          <mat-error *ngIf="thirdFormGroup.controls['numero'].hasError('code')">
+            Please enter a valid data (3 or 5 digits)
+          </mat-error>
+          <mat-error *ngIf="thirdFormGroup.controls['numero'].hasError('unique')">
+            Please enter a unique data.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" >
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="statut">
+            <mat-option *ngFor="let choix of statusChoose1" [value]="choix.value"
+                        (click)="thirdFormGroup.controls['statut'].setValue(choix.value)">
+              {{choix.valueView}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date Attribution *</mat-label>
+          <input matInput placeholder="Date Attribution" [matDatepicker]="picker3" formControlName="date_attr"/>
+          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+          <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+      </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button class="btn btn-danger pull-right" (click)="closeTS()" >Cancel</button>
+      <button mat-button class="btn btn-default pull-right" (click)="stepper.reset()">Reset</button>
+      <button  class="btn btn-info pull-right" (click)="addAll()">Validate</button>
+    </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

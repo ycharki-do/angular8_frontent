@@ -1,0 +1,123 @@
+.container {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  margin: 0px 0px;
+  width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.container .mat-drawer{
+  min-width: 200px;
+}
+
+.container .mat-drawer .mat-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.spacer {
+  flex : 1 1 auto;
+}
+
+.logo{
+  height: 300px;
+}
+
+.content{
+  width: 80%;
+}
+
+.status {
+  background-color: dodgerblue;
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
+.nav-button {
+  font-size: 15px;
+  padding: 5px 5px 5px 15px;
+}
+
+.sidenav {
+  background-color: #222930 ;
+}
+
+
+#sidebar-wrapper {
+  font-size: 14pt;
+  background-color: #E9E9E9;
+}
+
+#sidebar-wrapper .list-group {
+  font-size: 13pt;
+  background-color: #191e30;
+}
+
+#sidebar-wrapper .list-group-item {
+  font-size: 13pt;
+  background-color: #222930 ;
+  border: #222930 solid thin;
+  color: white;
+  font-family: "Comic Sans MS", "Bodoni MT", serif;
+}
+
+#sidebar-wrapper .list-group-item:hover {
+  background-color: #4EB1BA ;
+  border: #222930 solid thin;
+}
+
+.sidebar-heading {
+  margin: auto;
+  padding: 10px;
+}
+
+.logo-center-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projet-title {
+  /*font-family: Georgia, Times, serif;*/
+  /*font-family: "Verdana", "Bodoni MT", serif;*/
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+/* footer
+///////////////////////////////////
+/////////////////////////////////////
+ */
+
+.footer {
+  background: #222930;
+  height: auto;
+  padding-bottom: 30px;
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #CCCCCC;
+  border-top: 1px solid #DDDDDD;
+}
+
+.footer p {
+  margin: 0;
+  color: white;
+  font-weight: lighter;
+}
+
+.footer-bottom {
+  margin-top: 2em;
+  border-top: 1px solid #DDDDDD;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-size: 0.90em
+}
+
+
+

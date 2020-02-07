@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Reference</h1>
+<div mat-dialog-content>
+  <div class="card-body">
+    <form [formGroup]="form" >
+          <div class="controles-container">
+            <input type="hidden"  formControlName="id">
+            <mat-form-field appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput placeholder="Nom" formControlName="nom"/>
+              <mat-error *ngIf="form.controls['nom'].hasError('unique')">
+                This field must be unique
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Date Ajout *</mat-label>
+              <input matInput placeholder="Date Ajout" [matDatepicker]="picker" formControlName="date_ajout"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="addCode()" [disabled]="form.invalid">Submit</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Clear</button>
+</div>
+

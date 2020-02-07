@@ -1,0 +1,18 @@
+
+<div mat-dialog-content class="panel panel-info">
+  <app-code-list onDialog="true" (selectedCode)="selectedDone($event)">Loading...</app-code-list>
+    <div class="col-md-4" style="margin: 30px 30px;">
+      <label>Status:</label>
+      <mat-select [(ngModel)]="statut" class="form-control" required>
+        <label>-- Status --</label>
+        <mat-option *ngFor="let choix of statusChoose" [value]="choix.value"
+                    (click)=" statut = choix.value ">
+          {{choix.valueView}}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" [disabled]="!code || !statut" (click)="confirm()" >Confirm!</button>
+  <button mat-raised-button color="warn" (click)="cancel()" >Cancel</button>
+</div>

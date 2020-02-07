@@ -1,0 +1,14 @@
+.controles-container {
+  width: 100%;
+}
+
+.controles-container > * {
+  width: 100%;
+}
+
+.mat-dialog-content form{
+  display: contents;
+  height: 100%;
+  margin: 0 0;
+  padding: 0 0;
+}

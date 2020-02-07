@@ -1,0 +1,138 @@
+<div class="panel panel-success col-md-10 col-md-offset-1" style="margin-top: 20px">
+  <div class="panel panel-heading">
+    DashBoard
+  </div>
+  <div class="panel panel-danger col-md-6" *ngIf="pieChart">
+    <button mat-icon-button class="pull-right" (click)="pieChart = false" title="Export"><i class="glyphicon glyphicon-eye-close"></i></button>
+    <div class="panel panel-heading">
+      Pie Chart
+    </div>
+    <div class="panel panel-body">
+      <app-pie-chart></app-pie-chart>
+    </div>
+  </div>
+  <div class="panel panel-danger col-md-6" *ngIf="barChart">
+    <button mat-icon-button class="pull-right" (click)="barChart = false" title="Export"><i class="glyphicon glyphicon-eye-close"></i></button>
+    <div class="panel panel-heading">
+      Bar Chart
+    </div>
+    <div class="panel panel-body">
+      <app-bar-chart></app-bar-chart>
+    </div>
+  </div>
+  <div class="panel panel-body col-md-12">
+    <mat-card>
+
+      <mat-card-title>Statistics</mat-card-title>
+      <button mat-icon-button class="pull-right" (click)="generate_excel()" title="Export"><i class="glyphicon glyphicon-export"></i></button>
+      <mat-card-subtitle>this is the full information gathered here for simple data check!</mat-card-subtitle>
+      <button  (click)="openQuickAddDialog()" title="Add quick data" class="btn btn-info">Quick Add</button>
+      <mat-menu #menu="matMenu">
+        <div mat-menu-item >
+          <mat-checkbox (click)="checkall(checkAllAction)" #checkAllAction>All</mat-checkbox>
+        </div>
+        <div mat-menu-item *ngFor="let val of listProjet">
+          <mat-checkbox (click)="applyFilter(val,element)" #element [checked]="checkAll" >{{val.nom}}</mat-checkbox>
+        </div>
+      </mat-menu>
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="code">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Code </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a *ngIf="element.refCode.code">{{element.refCode.code.numero}} </a>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Project Column -->
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a [routerLink]="" style="color: black" *ngIf="element.refCode.code">
+                <div *ngIf="element.refCode.code.statut===0" class="label label-primary" style="background-color: limegreen">Free</div>
+                <div *ngIf="element.refCode.code.statut===1" class="label label-primary" style="background-color: gold">Temp</div>
+                <div *ngIf="element.refCode.code.statut===2" class="label label-primary" style="background-color: darkorange">Busy</div>
+                <div *ngIf="element.refCode.code.statut===3" class="label label-primary" style="background-color: royalblue">Reserved</div>
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="project" >
+            <mat-header-cell *matHeaderCellDef mat-sort-header>  Project <button [matMenuTriggerFor]="menu" mat-icon-button class="pull-right"><mat-icon>filter_list</mat-icon></button></mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a [routerLink]="" style="color: #202070" *ngIf="element.prodRef.produit">
+                {{element.prodRef.produit.projet.nom}}
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Project Number -->
+          <ng-container matColumnDef="board">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>  Board </mat-header-cell>
+            <mat-cell *matCellDef="let element" >
+              <a [routerLink]="" style="color: #202070" *ngIf="element.prodRef.produit">
+                {{element.prodRef.produit.nom}}
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="itac">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>  iTAC Setup </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a [routerLink]="" style="color: #202070" *ngIf="element.refCode.reference">
+                {{element.refCode.reference.nom}}
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>  Type </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a [routerLink]="" style="color: #202070" *ngIf="element.refCode.reference">
+                {{element.refCode.reference.zone}}
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef> Loading Data... </mat-footer-cell>
+            <mat-cell *matCellDef="let row"></mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef> No Data </mat-footer-cell>
+            <mat-cell *matCellDef="let row"></mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': dataSource!=null }"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[2,5,10,15,20,100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!--<div class="panel panel-danger col-md-6">-->
+    <!--<div class="panel panel-heading">-->
+      <!--Radar Chart-->
+    <!--</div>-->
+    <!--<div class="panel panel-body">-->
+      <!--<app-radar-chart></app-radar-chart>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="panel panel-danger col-md-6">-->
+    <!--<div class="panel panel-heading">-->
+      <!--Doughnut Chart-->
+    <!--</div>-->
+    <!--<div class="panel panel-body">-->
+      <!--<app-doughnut-chart></app-doughnut-chart>-->
+    <!--</div>-->
+  <!--</div>-->
+
+</div>

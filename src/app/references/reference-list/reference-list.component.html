@@ -1,0 +1,89 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title"> {{title}}  <span *ngIf="(onDialog && selectedRed)" style="color: royalblue">{{selectedRed.nom}}</span></h4>
+    <div >
+      <div class="search-div">
+        <button mat-raised-button *ngIf="!onDialog" (click)="openAddDialog()"><mat-icon>add</mat-icon>Create</button>
+        <mat-form-field class="search-field-form" floatLabel="never" color="warn" style="width: 50%">
+          <input matInput [(ngModel)]="searchKey" placeholder="Search..." autocomplete="off" (keyup)="applyFilter()"/>
+          <button mat-button matSuffix mat-icon-button area-label="clear" *ngIf="searchKey" (click)="onSearchClick()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+
+        <!-- Project Column -->
+        <ng-container matColumnDef="nom">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a *ngIf="!onDialog" [routerLink]="['/references/details',element.id]" style="color: #202070">
+              {{element.nom}}
+            </a>
+            <a *ngIf="onDialog" style="color: #202070">
+              {{element.nom}}
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="zone">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Zone </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a [routerLink]="" style="color: black">
+              {{element.zone}}
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date_ajout" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header>  Date Creation </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.date_ajout | date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="statut" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header>  Statut </mat-header-cell>
+          <mat-cell *matCellDef="let element" >
+            <div *ngIf="element.statut===0" class="label label-info" style="background-color: limegreen">Free</div>
+            <div *ngIf="element.statut===1" class="label label-info" style="background-color: darkgoldenrod">Temp</div>
+            <div *ngIf="element.statut===2" class="label label-info" style="background-color: royalblue">Definitive</div>
+            <!--<div [ngClass]="{'dif':element.statut===1 , 'temp': element.statut===2}">{{element.statut===1 ? 'Definitive' : 'Temporelle'}}</div>-->
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-icon-button (click)="openEditDialog(row)"><mat-icon>launch</mat-icon></button>
+            <button mat-icon-button color="warn" (click)="confirm_delete(row)"><mat-icon>delete_outline</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="loading">
+          <mat-footer-cell *matFooterCellDef> Loading Data... </mat-footer-cell>
+          <mat-cell *matCellDef="let row"></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noData">
+          <mat-footer-cell *matFooterCellDef> No Data </mat-footer-cell>
+          <mat-cell *matCellDef="let row"></mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row  class="element-row" *matRowDef="let row; columns: displayedColumns;" (click)="rowSelected(row)"></mat-row>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': dataSource!=null  }"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[2,5,10,15,20,100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

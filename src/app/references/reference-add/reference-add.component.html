@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Reference</h1>
+<div mat-dialog-content>
+  <div class="card-body">
+    <form [formGroup]="form" >
+          <div class="controles-container">
+            <input type="hidden"  formControlName="id">
+            <mat-form-field appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput placeholder="Nom" formControlName="nom"/>
+              <mat-error *ngIf="form.controls['nom'].hasError('minlength') || form.controls['nom'].hasError('maxlength')">
+                please enter a valid name (9 characters)!!
+              </mat-error>
+              <mat-error *ngIf="form.controls['nom'].hasError('unique')">
+                This field must be unique
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Zone</mat-label>
+              <mat-select formControlName="zone">
+                <mat-option *ngFor="let choi of zoneChoose" [value]="choi.value"
+                            (click)="form.controls['zone'].setValue(choi.value)">
+                  {{choi.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" >
+              <mat-label>Statut</mat-label>
+              <mat-select formControlName="statut">
+                <mat-option *ngFor="let choix of statusChoose" [value]="choix.value"
+                            (click)="form.controls['statut'].setValue(choix.value)">
+                  {{choix.valueView}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Date Creation *</mat-label>
+              <input matInput placeholder="Date Ajout" [matDatepicker]="picker" formControlName="date_ajout"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="addReference()" [disabled]="form.invalid">Submit</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Clear</button>
+</div>
+

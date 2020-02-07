@@ -1,0 +1,68 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer mode="over" class="sidenav" >
+    <!--<button disabled mat-button>-->
+      <!--<span><h4 style=" margin: 15px 15px; ">Lear Corporation</h4></span>-->
+    <!--</button>-->
+    <!--<button class="nav-button" routerLink="/dashboard" mat-button>Dashboard</button>-->
+    <!--<button class="nav-button" routerLink="/projets" mat-button>Projets</button>-->
+    <!--<button class="nav-button" routerLink="/products" mat-button>Products</button>-->
+    <!--<button class="nav-button" routerLink="/references" mat-button>References</button>-->
+    <!--<button  class="nav-button" routerLink="/codes" mat-button>Codes</button>-->
+     <!--Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading"><img src="../assets/Lear_Corporation_logo.svg"
+          style="object-fit: scale-down ; width: 150px;"></div>
+      <div class="list-group list-group-flush">
+        <a href="#" routerLink="/dashboard" class="list-group-item list-group-item-action bg-light">Dashboard
+          <i class="pull-right glyphicon glyphicon-signal" ></i>
+        </a>
+        <a href="#" routerLink="/projets" class="list-group-item list-group-item-action bg-light">Projects
+          <i class="pull-right glyphicon glyphicon-tags"></i>
+        </a>
+        <a href="#" routerLink="/products" class="list-group-item list-group-item-action bg-light">Products
+          <i class="pull-right glyphicon glyphicon-shopping-cart"></i>
+        </a>
+        <a href="#" routerLink="/references" class="list-group-item list-group-item-action bg-light">References
+          <i class="pull-right glyphicon glyphicon-link"></i>
+        </a>
+        <a href="#" routerLink="/codes" class="list-group-item list-group-item-action bg-light">Codes
+          <i class="pull-right glyphicon glyphicon-lock"></i>
+        </a>
+      </div>
+    </div>
+
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar>
+     <mat-toolbar-row style="background-color: #222930 ; color: #E9E9E9">
+       <button mat-icon-button (click)="drawer.toggle()">
+         <mat-icon>menu</mat-icon>
+       </button>
+
+       <span class="projet-title"> Codification Project</span>
+       <div class="logo-center-container">
+                <span><img src="../assets/mysvg.svg"
+                           style="object-fit: scale-down ; width: 150px; margin: 0 auto"/></span>
+       </div>
+       <span class="spacer"></span>
+       <button mat-icon-button title="User Profile"><i class="glyphicon glyphicon-user"></i></button>
+       <button mat-icon-button title="Log Out"><i class="glyphicon glyphicon-log-out"></i></button>
+     </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet class="content"></router-outlet>
+    <footer>
+      <div class="footer col-md-12" id="footer">
+        <div class="footer-bottom">
+          <div class="container">
+            <p class="copyright logo-center-container"> Copyright © Lear Corporation 2019. All right reserved. By CHARKI Youssef  </p>
+          </div>
+        </div>
+        <!--/.footer-bottom-->
+      </div>
+    </footer>
+    <!-- ./Footer -->
+  </mat-drawer-content>
+  <!-- Footer -->
+
+</mat-drawer-container>
+

@@ -1,0 +1,79 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Codes <span *ngIf="(onDialog && selectedCodeValue)" style="color: #1ab394">{{selectedCodeValue.numero}}</span></mat-card-title>
+    <mat-card-subtitle *ngIf="!onDialog">La liste des codes presents dans la base de donnees.</mat-card-subtitle>
+  </mat-card-header>
+ <mat-card-content>
+   <div class="search-div">
+     <button *ngIf="!onDialog" mat-raised-button (click)="openAddDialog()"><mat-icon>add</mat-icon>Create</button>
+     <mat-form-field class="search-field-form" floatLabel="never" color="warn">
+       <input matInput [(ngModel)]="searchKey" placeholder="Search..." autocomplete="off" (keyup)="applyFilter()"/>
+       <button mat-button matSuffix mat-icon-button area-label="clear" *ngIf="searchKey" (click)="onSearchClick()">
+         <mat-icon>close</mat-icon>
+       </button>
+     </mat-form-field>
+   </div>
+   <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+     <!--- Note that these columns can be defined in any order.
+           The actual rendered columns are set as a property on the row definition" -->
+
+     <!-- Position Column -->
+     <ng-container matColumnDef="id">
+       <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+       <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+     </ng-container>
+
+     <!-- Project Column -->
+     <ng-container matColumnDef="numero">
+       <mat-header-cell *matHeaderCellDef mat-sort-header> Numero </mat-header-cell>
+       <mat-cell *matCellDef="let element">
+         <a [routerLink]="['/codes/details',element.id]" style="color: #202070">
+           {{element.numero}}
+         </a>
+       </mat-cell>
+     </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="statut">
+       <mat-header-cell *matHeaderCellDef mat-sort-header> Statut </mat-header-cell>
+       <mat-cell *matCellDef="let element">
+           <div *ngIf="element.statut===0" class="label label-primary" style="background-color: limegreen">Free</div>
+           <div *ngIf="element.statut===1" class="label label-primary" style="background-color: gold">Temp</div>
+           <div *ngIf="element.statut===2" class="label label-primary" style="background-color: darkorange">Busy</div>
+           <div *ngIf="element.statut===3" class="label label-primary" style="background-color: royalblue">Reserved</div>
+       </mat-cell>
+     </ng-container>
+
+     <ng-container matColumnDef="date_attr" >
+       <mat-header-cell *matHeaderCellDef mat-sort-header>  Date Attribution </mat-header-cell>
+       <mat-cell *matCellDef="let element"> {{element.date_attr | date}} </mat-cell>
+     </ng-container>
+
+     <ng-container matColumnDef="actions">
+       <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+       <mat-cell *matCellDef="let row">
+         <button mat-icon-button (click)="openEditDialog(row)"><mat-icon>launch</mat-icon></button>
+         <button mat-icon-button color="warn" (click)="confirm_delete(row)"><mat-icon>delete_outline</mat-icon></button>
+       </mat-cell>
+     </ng-container>
+
+     <ng-container matColumnDef="loading">
+       <mat-footer-cell *matFooterCellDef> Loading Data... </mat-footer-cell>
+       <mat-cell *matCellDef="let row"></mat-cell>
+     </ng-container>
+
+     <ng-container matColumnDef="noData">
+       <mat-footer-cell *matFooterCellDef> No Data </mat-footer-cell>
+       <mat-cell *matCellDef="let row"></mat-cell>
+     </ng-container>
+
+     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+     <mat-row  class="element-row" (click)="selectedTableRow(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+     <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': dataSource!=null }"></mat-footer-row>
+     <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+   </mat-table>
+   <mat-paginator [pageSizeOptions]="[2,5,10,15,20,100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+</mat-card>
